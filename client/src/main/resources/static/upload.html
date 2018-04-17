@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Title</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/main.module.js" type="text/javascript"></script>
+    <script src="js/main.service.js " type="text/javascript"></script>
+    <script src="js/main.controller.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div ng-app="WebApp" class="container-fluid">
+    <div class="panel panel-default" ng-controller="ctrl">
+        <div class="panel-heading">
+            XSD Name:
+            <input id="textBoxName" name="textBoxXSDName" ng-model="xsdName"/>
+            <button type="button">Add</button>
+        </div>
+        <div align="center" class="panel-body">
+            <div>
+                File:
+                <input id="inputBoxFile" style="display: inline" type=file name=browse>
+                <button style="display: inline" type="button" class="btn btn-xs btn-danger">Delete</button>
+            </div>
+            <button type="button" class="btn btn-default" style="margin: 10px 10px;" ng-click="postFile(xsdName)">Upload</button>
+
+            <div id="successAlert" class="alert alert-success" style="display: none;">
+                <strong>Success!</strong> XSD-file added
+            </div>
+
+            <div id="errorAlert" class="alert alert-danger" style="display: none;">
+                <strong>Error!</strong> Something went wrong
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

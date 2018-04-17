@@ -1,0 +1,80 @@
+group 'xsd-viewerID'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'xsd-spring-boot'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.4.2'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: '1.5.4.RELEASE'
+
+    testCompile("junit:junit")
+}
+
+apply plugin: 'checkstyle'
+checkstyle {
+	configFile = rootProject.file('config/checkstyle.xml')
+	toolVersion = '6.17'
+	ignoreFailures = false
+}
+
+tasks.withType(Checkstyle).each { checkstyleTask ->
+	checkstyleTask.doLast {
+		reports.all { report ->
+			def outputFile = report.destination
+			if (outputFile.exists() && outputFile.text.contains("<error ")) {
+				throw new GradleException("Found checkstyle issues in $outputFile")
+			}
+		}
+	}
+}
+
+apply plugin: 'pmd'
+pmd {
+	ruleSetFiles = rootProject.files('config/pmd.xml')
+	toolVersion = '5.4.1'
+	ignoreFailures = false
+}
+
+apply plugin: 'findbugs'
+findbugs {
+	toolVersion = '3.0.1'
+	excludeFilter = rootProject.file('config/findbugs_filter.xml')
+	ignoreFailures = false
+}
+
+tasks.withType(FindBugs) {
+	reports {
+		xml.enabled = false
+		html.enabled = true
+	}
+}

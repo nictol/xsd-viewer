@@ -1,0 +1,25 @@
+{
+  "name" : "root",
+  "children" : [ {
+    "name" : "xs:schema",
+    "children" : [ {
+      "name" : "country",
+      "children" : [ {
+        "name" : "xs:complexType",
+        "children" : [ {
+          "name" : "xs:sequence",
+          "children" : [ {
+            "name" : "country_name",
+            "children" : [ ]
+          }, {
+            "name" : "population",
+            "children" : [ ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "name" : "kekekekek",
+      "children" : [ ]
+    } ]
+  } ]
+}

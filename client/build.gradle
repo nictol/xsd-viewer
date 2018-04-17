@@ -1,0 +1,82 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+apply plugin: 'checkstyle'
+checkstyle {
+	configFile = rootProject.file('config/checkstyle.xml')
+	toolVersion = '6.17'
+	ignoreFailures = false
+}
+
+tasks.withType(Checkstyle).each { checkstyleTask ->
+	checkstyleTask.doLast {
+		reports.all { report ->
+			def outputFile = report.destination
+			if (outputFile.exists() && outputFile.text.contains("<error ")) {
+				throw new GradleException("Found checkstyle issues in $outputFile")
+			}
+		}
+	}
+}
+
+tasks.withType(Checkstyle) {
+	reports {
+		xml.enabled = true
+		html.enabled = true
+	}
+}
+
+apply plugin: 'pmd'
+pmd {
+	ruleSetFiles = rootProject.files('config/pmd.xml')
+	toolVersion = '5.4.1'
+	ignoreFailures = false
+}
+
+tasks.withType(Pmd) {
+	reports {
+		xml.enabled = true
+		html.enabled = true
+	}
+}
+
+apply plugin: 'findbugs'
+findbugs {
+	toolVersion = '3.0.1'
+	excludeFilter = rootProject.file('config/findbugs_filter.xml')
+	ignoreFailures = false
+}
+
+tasks.withType(FindBugs) {
+	reports {
+		xml.enabled = false
+		html.enabled = true
+	}
+}

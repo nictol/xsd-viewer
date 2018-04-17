@@ -1,0 +1,74 @@
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>XSD-Viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<style>
+
+.node rect {
+  cursor: pointer;
+  fill: #fff;
+  fill-opacity: .5;
+  stroke: #3182bd;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+path.link {
+  fill: none;
+  stroke: #9ecae1;
+  stroke-width: 1.5px;
+}
+
+</style>
+<body>
+
+
+<div ng-app="WebApp">
+
+    <div ng-controller="TreeCtrl" class="panel panel-default">
+        <div class="panel-heading">
+            XSD Name:
+            <select ng-model="selected_schema"
+                    ng-options="schema as schema.label for schema in schemaList"
+                    ng-change="showTree(selected_schema.value, selectedAttrs)">
+            </select>
+            <button type="button" class="btn btn-secondary float-right" >Show</button>
+        </div>
+        <div class="panel-body">
+
+            <div  class="col-sm-2 col-md-2 col-lg-2">
+                <p>Fields:</p>
+
+
+                <div ng-repeat="attribute in attributes">
+                    <label>
+                        <input type="checkbox"
+                               ng-true-value="'{{attribute}}'"
+                               ng-false-value="''"
+                               ng-model="selectedAttrs[$index]"
+                               ng-change="showTree(selected_schema.value, selectedAttrs)">
+                        {{attribute}}
+                    </label>
+                </div>
+
+            </div>
+            <div id ="treeView" class="col-sm-10">
+                <h2 align="center" >TREE-VIEW</h2>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
